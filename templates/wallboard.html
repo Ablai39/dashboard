@@ -1,0 +1,97 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="app-main__inner" id="z-wallboard-main" style="background-color: #222;">
+    <div class="col-lg-6 col-xl-12" id="wb-table-main" style="padding-left: 0px; padding-right: 0px;">
+        <div class="card-wallboard widget-content" style="border: 0; padding-top: 0; padding-bottom: 0;">
+            <table class="mb-0 table table-striped" id="wallboard-header">
+                <thead>
+                    <tr>
+                        <th style="min-width: 60px; max-width: 60px; min-height: 60px; max-height: 60px;"><div class="cssload-loader"></div></th>
+                        <th style="width: 30%; color: #00FFFF; cursor: pointer;" ondblclick="wallboard_on_full_display()">ОНЛАЙН СТАТИСТИКА</th>
+                        <th style="width: 35%;">ОБЩАЯ ОЧЕРЕДЬ - <span id="wallboard-all-inqueue" style="font-size: 40px;"></span></th>
+                        <th style="width: 35%;">ОБЩИЙ SL - <span id="wallboard-all-sl" style="font-size: 40px;"></span></th>
+                        <th><div class="pe-7s-exapnd2" style="min-width: 28px; cursor: pointer;" ondblclick="wallboard_on_full_display()" onclick="wallboard_on_full_display()"></div></th>
+                    </tr>
+                </thead>
+            </table>
+            <table class="mb-0 table table-striped" id="wallboard-header">
+                <thead>
+                    <tr>
+                        <th style="min-width: 30px; max-width: 30px; min-height: 60px; max-height: 60px;"></th>
+                        <th style="font-size: 12px; font-weight: normal; text-align: left;"> в реальном времени, шаг ~10 секунд, обновлено в <span id="z-wallboard-curr-date-time"></span></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-xl-12" id="wb-table-main" style="padding-left: 0px; padding-right: 0px;">
+        <div class="card-wallboard mb-3 widget-content" style="border: 0;">
+            <table class="mb-0 table table-striped" id="wallboard-table-main" style="color: #00FFFF; min-height: 250px;">
+                <thead>
+                    <tr style="border-top: 3px solid red; border-bottom: 3px solid red;">
+                        <th style="text-align:left; width: 25%;">Сектор</th>
+                        <th colspan="2" style="text-align:center; width: 15%;">Очередь</th>
+                        <th style="text-align:center; width: 15%;">Service Level</th>
+                        <th style="text-align:center; width: 20%;">ASA</th>
+                        <th style="text-align:center; width: 25%;">Кол. вх.вызовов</th>
+                    </tr>
+                </thead>
+                <tbody id="wallboard-table-main-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-xl-12" style="display: flex; padding-left: 0px; padding-right: 0px;">
+        <div class="col-lg-6 col-xl-4">
+            <div class="card-wallboard mb-3 widget-content" style="color: #fff; padding-left: 0px; padding-right: 0px;">
+                <div class="card-wallboard-body">
+                    <h5 class="card-wallboard-title">Лучшие сотрудники за последний час</h5>
+                    <div class="wallboard-tables">
+                        <table class="mb-0 table" id="z-wallboard-best5-table">
+                            <thead>
+                            </thead>
+                            <tbody id="z-wallboard-top5-table-body" style="font-size: 20px;">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-4">
+            <div class="card-wallboard mb-3 widget-content">
+                <div class="card-wallboard-body">
+                    <h5 class="card-wallboard-title">Пропустившие вызовы операторы</h5>
+                    <div class="wallboard-tables">
+                        <table class="mb-0 table" id="z-wallboard-missed-calls-table">
+                            <thead>
+                            </thead>
+                            <tbody id="z-wallboard-missed-calls-table-body" style="font-size: 20px;">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-4">
+            <div class="card-wallboard mb-3 widget-content">
+                <div class="card-wallboard-body">
+                    <h5 class="card-wallboard-title">Операторы с продолжительностью разговора свыше 7-<span style="text-transform: none;">ми мин</span></h5>
+                    <div class="wallboard-tables">
+                        <table class="mb-0 table" id="z-wallboard-7min-calls-table">
+                            <thead>
+                            </thead>
+                            <tbody id="z-wallboard-7min-calls-table-body" style="font-size: 20px;"></tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascript %}
+<script>
+    page = 'wallboard';
+</script> {% endblock javascript %} {% endblock %}

@@ -1,0 +1,97 @@
+{% load static %}
+<div class="col-lg-6 col-xl-12" style="padding-left: 0px; padding-right: 0px;">
+    <div class="card mb-3 widget-content" style="color:#495057; border-top: 2px solid #2E8B57; border-bottom: 2px solid #2E8B57;">
+        <div class="card-header-title" style="width: 100%;">
+            <div style="font-size:15px; text-transform:uppercase; font-weight:bold;">
+                <table>
+                    <tr>
+                        <td style="width: 400px;">
+                            <div class="z-pe-7s-note2"></div>
+                            <div>Отчет по входящим вызовам</div>
+                        </td>
+                        <td style="width: 100px;">
+                            <div class="openCloseReportButton" id="opncls-btn-main-acd-abn" onclick="loadReport('main-acd-abn')">Показать</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-title-subheading" style="display: none;">данные за последние 7 дней</div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-6 col-xl-12" id="rpt-main-acd-abn" style="padding: 0; display: grid; display: none;">
+    <div class="main-card mb-3 card">
+        <div class="card-body" style="display: flex; height: 460px;">
+            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="reports-acd-abn-calls-tb" style="overflow: scroll; display: block;">
+                <thead>
+                    <tr style="font-weight: bold;">
+                        <th rowspan="2" style="min-width: 100px; max-width: 100px;">Дата</th>
+                        <th rowspan="2" style="min-width: 100px; max-width: 100px;">Service level</th>
+                        <th rowspan="2" style="min-width: 100px; max-width: 100px;">Общие поступившие вызовы</th>
+                        <th rowspan="2" style="min-width: 200px; max-width: 200px;">Потерянные при входе (ошибочные обращения, плохое качество у операторов связи)</th>
+                        <th rowspan="2" style="min-width: 100px; max-width: 100px;">Обработанные на Omilia</th>
+                        <th rowspan="2" style="min-width: 65px; max-width: 65px;">%</th>
+                        <th rowspan="2" style="min-width: 100px; max-width: 100px;">Обработанные на IVR</th>
+                        <th rowspan="2" style="min-width: 65px; max-width: 65px;">%</th>
+                        <th rowspan="2" style="min-width: 100px; max-width: 100px;">Потеряннные на IVR</th>
+                        <th rowspan="2" style="min-width: 160px; max-width: 160px;">Поступившие в очередь к операторам</th>
+                        <th rowspan="2" style="min-width: 65px; max-width: 65px;">%</th>
+                        <th rowspan="2" style="min-width: 160px; max-width: 160px;">Принятые операторами
+                            <span id="acd-dop-info" style="color: #244cb3; cursor: pointer;" onclick="showDetail('acd-abn','acd')">(+)</span>
+                        </th>
+                        <th rowspan="2">% принятых</th>
+                        <!-- 10 -->
+                        <th colspan="2" class="d-none" id="acd-row1" style="min-width: 160px; max-width: 160px; cursor: pointer;" onclick="showDetail('acd-abn','acd')">Принятые вызовы с временем ожидания в очереди
+                            <br><span style="text-decoration: underline;">(скрыть)</span>
+                        </th>
+                        <th rowspan="2" style="min-width: 160px; max-width: 160px;">Потерянные в очереди к оператору
+                            <span id="abn-dop-info" style="color: #244cb3; cursor: pointer;" onclick="showDetail('acd-abn','abn')">(+)</span>
+                        </th>
+                        <!-- 12 -->
+                        <th colspan="2" class="d-none" id="abn-row1" style="min-width: 160px; max-width: 160px; cursor: pointer;" onclick="showDetail('acd-abn','abn')">Потерянные вызовы с временем ожидания в очереди
+                            <br><span style="text-decoration: underline;">(скрыть)</span>
+                        </th>
+                        <th rowspan="2">% потерянных</th>
+                    </tr>
+                    <tr style="font-weight: bold;">
+                        <th class="d-none" id="acd-row2" style="min-width: 85px;">до 40 сек</th>
+                        <th class="d-none" id="acd-row3" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="acd-row4" style="min-width: 85px;">от 40 сек<br>до 1 мин</th>
+                        <th class="d-none" id="acd-row5" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="acd-row6" style="min-width: 85px;">от 1 мин<br>до 2 мин</th>
+                        <th class="d-none" id="acd-row7" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="acd-row8" style="min-width: 85px;">от 2 мин<br>до 5 мин</th>
+                        <th class="d-none" id="acd-row9" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="acd-row10" style="min-width: 90px;">от 5 мин<br>до 10 мин </th>
+                        <th class="d-none" id="acd-row11" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="acd-row12" style="min-width: 90px;">от 10 мин </th>
+                        <th class="d-none" id="acd-row13" style="min-width: 60px;">%</th>
+
+                        <th class="d-none" id="abn-row2" style="min-width: 85px;">до 10 сек</th>
+                        <th class="d-none" id="abn-row3" style="min-width: 65px;">%</th>
+                        <th class="d-none" id="abn-row4" style="min-width: 85px;">от 10 сек<br>до 15 сек</th>
+                        <th class="d-none" id="abn-row5" style="min-width: 65px;">%</th>
+                        <th class="d-none" id="abn-row6" style="min-width: 85px;">от 15 сек<br>до 20 сек</th>
+                        <th class="d-none" id="abn-row7" style="min-width: 65px;">%</th>
+                        <th class="d-none" id="abn-row8" style="min-width: 85px;">от 20 сек<br>до 30 сек</th>
+                        <th class="d-none" id="abn-row9" style="min-width: 65px;">%</th>
+                        <th class="d-none" id="abn-row10" style="min-width: 85px;">от 30 сек<br>до 40 сек</th>
+                        <th class="d-none" id="abn-row11" style="min-width: 65px;">%</th>
+                        <th class="d-none" id="abn-row12" style="min-width: 85px;">от 40 сек<br>до 1 мин</th>
+                        <th class="d-none" id="abn-row13" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="abn-row14" style="min-width: 85px;">от 1 мин<br>до 2 мин</th>
+                        <th class="d-none" id="abn-row15" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="abn-row16" style="min-width: 85px;">от 2 мин<br>до 5 мин</th>
+                        <th class="d-none" id="abn-row17" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="abn-row18" style="min-width: 90px;">от 5 мин<br>до 10 мин</th>
+                        <th class="d-none" id="abn-row19" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="abn-row20" style="min-width: 90px;">от 10 мин<br>и выше</th>
+                        <th class="d-none" id="abn-row21" style="min-width: 60px;">%</th>
+                    </tr>
+                </thead>
+                <tbody id="reports-acd-abn-calls">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

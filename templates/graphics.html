@@ -1,0 +1,99 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+
+<div class="app-main__inner" style="min-width: 1400px;">
+    <div class="col-lg-6 col-xl-12" style="padding: 0;">
+        <div class="main-card mb-3 card">
+            <div class="card-body" style="display: block;">
+                <div style="display: flex;">
+                    <table>
+                        <tr>
+                            <td><span class="pe-7s-graph2" style="font-size: 30px;"></span></td>
+                            <td style="vertical-align: middle;"><h6 class="sub-label-left" id="graphics-h6" style="margin-left: 10px;" onclick="graphics_show('all')">По всем секторам за 2020 год</h6></td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- Диаграммы ALL -->
+                <div id="graphics-diagrams-all" style="display: flex; padding-top: 10px;">
+                    <!-- Первый столбец -->
+                    <div class="col-lg-6 col-xl-6" id="graphics-row-left-column" style="padding-left: 0px; padding-right: 7px; display: block;">
+                        <div class="col-lg-6 col-xl-12" style="padding: 0px;">
+                            <div class="main-card card">
+                                <div class="" style="border: 1px solid #eee;">
+                                    <div class="card-body">
+                                        <h6 class="sub-label-left" style="padding-bottom: 10px; font-weight: bold;">Количество поступивших вызовов в очередь</h6>
+                                        <canvas id="graphics-all-callsoffered"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Второй столбец -->
+                    <div class="col-lg-6 col-xl-6" style="padding-right: 0px; padding-left: 7px; display: block;">
+                        <div class="col-lg-6 col-xl-12" style="padding: 0px;">
+                            <div class="main-card card">
+                                <div class="" style="border: 1px solid #eee;">
+                                    <div class="card-body">
+                                        <h6 class="sub-label-left" style="padding-bottom: 10px; font-weight: bold;">Service Level</h6>
+                                        <canvas id="graphics-all-sl"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for sector, attrib in sectorsDict.items %}
+        {% if attrib.archive == 'N' %}
+            {% if attrib.enableInGraphicPage == 'Y' %}
+                <div class="col-lg-6 col-xl-12" style="padding: 0;">
+                    <div class="main-card mb-3 card">
+                        <div class="card-body" style="display: block;">
+                            <div style="display: flex;">
+                                <table>
+                                    <tr>
+                                        <td><span class="pe-7s-graph2" style="font-size: 30px;"></span></td>
+                                        <td style="vertical-align: middle;"><h6 class="sub-label-left" id="graphics-h6" style="margin-left: 10px;" onclick="graphics_show('{{ sector }}')">По сектору "{{ attrib.longname }}"</h6></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="graphics-diagrams-{{ sector }}" style="display: none; padding-top: 10px;">
+                                <!-- Первый столбец -->
+                                <div class="col-lg-6 col-xl-6" id="graphics-row-left-column" style="padding-left: 0px; padding-right: 7px; display: block;">
+                                    <div class="col-lg-6 col-xl-12" style="padding: 0px;">
+                                        <div class="main-card card">
+                                            <div class="" style="border: 1px solid #eee;">
+                                                <div class="card-body">
+                                                    <h6 class="sub-label-left" style="padding-bottom: 10px; font-weight: bold;">Количество поступивших вызовов в очередь</h6>
+                                                    <canvas id="graphics-{{ sector }}-callsoffered"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Второй столбец -->
+                                <div class="col-lg-6 col-xl-6" style="padding-right: 0px; padding-left: 7px; display: block;">
+                                    <div class="col-lg-6 col-xl-12" style="padding: 0px;">
+                                        <div class="main-card card">
+                                            <div class="" style="border: 1px solid #eee;">
+                                                <div class="card-body">
+                                                    <h6 class="sub-label-left" style="padding-bottom: 10px; font-weight: bold;">Service Level</h6>
+                                                    <canvas id="graphics-{{ sector }}-sl"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>
+{% block javascript %}
+<script>
+    page = 'graphics';
+</script> {% endblock javascript %} {% endblock %}

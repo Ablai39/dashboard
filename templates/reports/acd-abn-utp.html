@@ -1,0 +1,89 @@
+{% load static %}
+<div class="col-lg-6 col-xl-12" style="padding-left: 0px; padding-right: 0px;">
+    <div class="card mb-3 widget-content" style="color:#495057; border-top: 2px solid #2E8B57; border-bottom: 2px solid #2E8B57;">
+        <div class="card-header-title" style="width: 100%;">
+            <div style="font-size:15px; text-transform:uppercase; font-weight:bold;">
+                <table>
+                    <tr>
+                        <td style="width: 400px;">
+                            <div class="z-pe-7s-note2"></div>
+                            <div>Отчет по входящим вызовам УТП</div>
+                        </td>
+                        <td style="width: 100px;">
+                            <div class="openCloseReportButton" id="opncls-btn-acd-abn-utp" onclick="loadReport('acd-abn-utp')">Показать</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-title-subheading" style="display: none;">данные за последние 7 дней</div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-6 col-xl-12" id='rpt-acd-abn-utp' style="padding: 0; display: grid; display:none;">
+    <div class="main-card mb-3 card">
+        <div class="card-body" style="display: flex; height: 460px;">
+            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="reports-acd-abn-calls-tb" style="overflow: scroll; display: block;">
+                <thead>
+                    <tr style="font-weight: bold;">
+                        <th rowspan="2" style="min-width: 100px; max-width: 100px;">Дата</th>
+                        <th rowspan="2" style="min-width: 100px; max-width: 100px;">Service level</th>
+                        <th rowspan="2" style="min-width: 160px; max-width: 160px;">Поступившие в очередь к операторам</th>
+                        <th rowspan="2" style="min-width: 160px; max-width: 160px;">Принятые операторами
+                            <span id="reports-utp-acd-dop-info" style="color: #244cb3; cursor: pointer;" onclick="showDetail('acd-abn-utp','acd')">(+)</span>
+                        </th>
+                        <th rowspan="2">% принятых</th>
+                        <!-- 10 -->
+                        <th colspan="2" class="d-none" id="reports-utp-acd1" style="min-width: 160px; max-width: 160px; cursor: pointer;" onclick="showDetail('acd-abn-utp','acd')">Принятые вызовы с временем ожидания в очереди
+                            <br><span style="text-decoration: underline;">(скрыть)</span>
+                        </th>
+                        <th rowspan="2" style="min-width: 160px; max-width: 160px;">Потерянные в очереди к оператору
+                            <span id="reports-utp-abn-dop-info" style="color: #244cb3; cursor: pointer;" onclick="showDetail('acd-abn-utp','abn')">(+)</span>
+                        </th>
+                        <!-- 12 -->
+                        <th colspan="2" class="d-none" id="reports-utp-abn1" style="min-width: 160px; max-width: 160px; cursor: pointer;" onclick="showDetail('acd-abn-utp','abn')">Потерянные вызовы с временем ожидания в очереди
+                            <br><span style="text-decoration: underline;">(скрыть)</span>
+                        </th>
+                        <th rowspan="2">% потерянных</th>
+                    </tr>
+                    <tr style="font-weight: bold;">
+                        <th class="d-none" id="reports-utp-acd2" style="min-width: 85px;">до 40 сек</th>
+                        <th class="d-none" id="reports-utp-acd3" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="reports-utp-acd4" style="min-width: 85px;">от 40 сек<br>до 1 мин</th>
+                        <th class="d-none" id="reports-utp-acd5" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="reports-utp-acd6" style="min-width: 85px;">от 1 мин<br>до 2 мин</th>
+                        <th class="d-none" id="reports-utp-acd7" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="reports-utp-acd8" style="min-width: 85px;">от 2 мин<br>до 5 мин</th>
+                        <th class="d-none" id="reports-utp-acd9" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="reports-utp-acd10" style="min-width: 90px;">от 5 мин<br>до 10 мин </th>
+                        <th class="d-none" id="reports-utp-acd11" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="reports-utp-acd12" style="min-width: 90px;">от 10 мин </th>
+                        <th class="d-none" id="reports-utp-acd13" style="min-width: 60px;">%</th>
+
+                        <th class="d-none" id="reports-utp-abn2" style="min-width: 85px;">до 10 сек</th>
+                        <th class="d-none" id="reports-utp-abn3" style="min-width: 65px;">%</th>
+                        <th class="d-none" id="reports-utp-abn4" style="min-width: 85px;">от 10 сек<br>до 15 сек</th>
+                        <th class="d-none" id="reports-utp-abn5" style="min-width: 65px;">%</th>
+                        <th class="d-none" id="reports-utp-abn6" style="min-width: 85px;">от 15 сек<br>до 20 сек</th>
+                        <th class="d-none" id="reports-utp-abn7" style="min-width: 65px;">%</th>
+                        <th class="d-none" id="reports-utp-abn8" style="min-width: 85px;">от 20 сек<br>до 30 сек</th>
+                        <th class="d-none" id="reports-utp-abn9" style="min-width: 65px;">%</th>
+                        <th class="d-none" id="reports-utp-abn10" style="min-width: 85px;">от 30 сек<br>до 40 сек</th>
+                        <th class="d-none" id="reports-utp-abn11" style="min-width: 65px;">%</th>
+                        <th class="d-none" id="reports-utp-abn12" style="min-width: 85px;">от 40 сек<br>до 1 мин</th>
+                        <th class="d-none" id="reports-utp-abn13" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="reports-utp-abn14" style="min-width: 85px;">от 1 мин<br>до 2 мин</th>
+                        <th class="d-none" id="reports-utp-abn15" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="reports-utp-abn16" style="min-width: 85px;">от 2 мин<br>до 5 мин</th>
+                        <th class="d-none" id="reports-utp-abn17" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="reports-utp-abn18" style="min-width: 90px;">от 5 мин<br>до 10 мин</th>
+                        <th class="d-none" id="reports-utp-abn19" style="min-width: 60px;">%</th>
+                        <th class="d-none" id="reports-utp-abn20" style="min-width: 90px;">от 10 мин<br>и выше</th>
+                        <th class="d-none" id="reports-utp-abn21" style="min-width: 60px;">%</th>
+                    </tr>
+                </thead>
+                <tbody id="reports-acd-abn-utp-calls">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

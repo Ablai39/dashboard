@@ -1,0 +1,606 @@
+﻿{% extends "base.html" %} {% block content %}
+
+<div class="app-main__inner">
+    <div id="omilia-loader">
+        <img id="omilia-centered" src="/static/assets/images/ajax-loader.gif" alt="Loading, Loading!"></img>
+    </div>
+    <div class="col-lg-6 col-xl-12 mb-3" id="z-omilia-row-1" style="padding-left: 0px;">
+        <div class="card widget-content" style="color:#495057; border-top: 2px solid #3ac47d; border-bottom: 2px solid #3ac47d;">
+            <div class="card-header-title" style="width: 100%;">
+                <div style="font-size:15px; text-transform:uppercase; font-weight:bold;">
+                    <div class="z-pe-7s-refresh-2"></div>
+                    <div>Данные за сегодня</div>
+                </div>
+                <div class="page-title-subheading">в реальном времени, шаг ~10 секунд, обновлено в <span id="z-omilia-curr-date-time"></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-xl-12 mb-3" id="z-omilia-row-2" style="padding: 0px; display: flex;">        
+        <!-- Колонка 1 -->
+        <div class="col-lg-6 col-xl-8" id="omilia-row-main1" style="padding: 0px;">
+            <div class="col-lg-6 col-xl-12" style="padding: 0px; display: flex;">
+                <div class="col-lg-6 col-xl-6" style="padding-left: 0px;">
+                    <div class="card mb-3 widget-content" style="display: block; font-size:15px;">
+                        <div style="border-bottom: 1px solid;">
+                            <div class="z-omilia-icon2">Завершено по инициативе клиента</div>
+                        </div>
+                        <div class="z-omilia-count" id="z-omilia-online-far-hup">-</div>
+                        <div class="widget-progress-wrapper">
+                            <div class="progress-bar-xs progress-bar-animated-alt progress">
+                                <div id="progress-bar-far-hup-id" class="progress-bar progress-bar-animated bg-info progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                    <div class="omilia-far-hup-progress-prc"></div>
+                                </div>
+                                <div class="omilia-far-hup-progress-prc-reverse" style="margin-left:10px; margin-top:auto; margin-bottom:auto;"></div>
+                            </div>
+                            <div class="progress-sub-label">
+                                <div class="sub-label-left">
+                                    <div class="omilia-far-hup-progress">progress</div>
+                                </div>
+                                <div class="sub-label-right">100%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-6" style="padding-left: 0px;">
+                    <div class="card mb-3 widget-content" style="display: block; font-size:15px;">
+                        <div style="border-bottom: 1px solid;">
+                            <div class="z-omilia-icon-users">Завершено по инициативе робота</div>
+                        </div>
+                        <div class="z-omilia-count" id="z-omilia-online-near-hup">-</div>
+                        <div class="widget-progress-wrapper">
+                            <div class="progress-bar-xs progress-bar-animated-alt progress">
+                                <div id="progress-bar-near-hup-id" class="progress-bar progress-bar-animated bg-warning progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                    <div class="omilia-near-hup-progress-prc"></div>
+                                </div>
+                                <div class="omilia-near-hup-progress-prc-reverse" style="margin-left:10px; margin-top:auto; margin-bottom:auto;"></div>
+                            </div>
+                            <div class="progress-sub-label">
+                                <div class="sub-label-left">
+                                    <div class="omilia-near-hup-progress">progress</div>
+                                </div>
+                                <div class="sub-label-right">100%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xl-12" style="padding: 0px; display: flex;">
+                <div class="col-lg-6 col-xl-6" style="padding-left: 0px;">
+                    <div class="card mb-3 widget-content" style="display: block; font-size:15px;">
+                        <div style="border-bottom: 1px solid; ">
+                            <div class="z-omilia-icon-clock">Среднее время разговора</div>
+                        </div>
+                        <div class="z-omilia-time-value" id="z-omilia-online-avg-duration" style="text-align: right;">
+                            <span id="z-omilia-hour"></span><small id="z-omilia-hour-text"></small>
+                            <span id="z-omilia-minute"></span><small id="z-omilia-minute-text"></small>
+                            <span id="z-omilia-second">-</span><small id="z-omilia-second-text"></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-6" style="padding-left: 0px;">
+                    <div class="card mb-3 widget-content" style="display: block; font-size:15px;">
+                        <div style="border-bottom: 1px solid;">
+                            <div class="z-omilia-icon-signal">% завершенных вызовов на уровне Omilia</div>
+                        </div>
+                        <div class="z-omilia-count" id="z-omilia-online-service-level" style="text-align: right;">
+                            <span id="z-omilia-service-level2">-</span>
+                            <small>%</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Dynamic-Static-Other-->
+            <div class="col-lg-6 col-xl-12" style="padding: 0px; display: flex;">
+                <div class="col-lg-6 col-xl-12" id="omilia-row-online-stat" style="padding: 0px; padding-right: 15px;">
+                    <div class="main-card card" style="padding-bottom: 30px;">
+                            <div class="card-body" id="index-row-operators-body-omilia" style="padding-bottom: 0px;">
+                                <div id="index-row-operators-body" style="margin-bottom: 0px;">
+                                    <div style="padding-left: 0px; display: flex;">
+                                        <h5 class="card-title">Аналитическая статистика за сегодня</h5>
+                                           <div class="btn-actions-pane-right">
+                                                <div class="dropdown">
+                                                    <button id="btn_destr" onclick="myFunction()" class="dropbtn btn mb-2 mr-2 btn-primary dropdown-toggle">Общий список</button>
+                                                      <div id="myDropdown" class="dropdown-content">
+                                                        <a id="btn_destr_all" onclick="OmiliaPressBtn('btn_destr_all')" data-toggle="tab" href="#all-t4-1" tabindex="0" class="dropdown-item;" style="display: none;">Общий список</a>
+                                                        <a id="btn_destr_o" onclick="OmiliaPressBtn('btn_destr_o')" data-toggle="tab" href="#dyn-t1-1" tabindex="0" class="dropdown-item">Динамические сервисы</a>
+                                                        <a id="btn_destr_t" onclick="OmiliaPressBtn('btn_destr_t')" data-toggle="tab" href="#sta-t2-1" tabindex="0" class="dropdown-item">Статические сервисы</a>
+                                                        <a id="btn_destr_h" onclick="OmiliaPressBtn('btn_destr_h')" data-toggle="tab" href="#oth-t3-1" tabindex="0" class="dropdown-item">Другое</a>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div>
+                                        <table class="mb-0 table table-striped">
+                                                <thead>
+                                                        <tr>
+                                                            <th style="text-align: center; vertical-align:middle; min-width: 40px; max-width: 40px;">№</th>
+                                                            <th style="text-align: center; vertical-align:middle; min-width: 100px; max-width: 100px;">Self Service</th>
+                                                            <th style="text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px;">Тема обращения</th>
+                                                            <th style="text-align: center; vertical-align:middle; min-width: 100px; max-width: 100px;">Количество</th>
+                                                            <th style="text-align: center; vertical-align:middle; min-width: 200px; max-width: 200px;">%, в процентном <br> соотношении ко всем темам</th>
+                                                        </tr>
+                                                </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="card-body" id="index-row-operators-body-omilia" style="padding-bottom: 5px; padding-top: 0px;">
+                                    <div id="omilia-offline-group" style="overflow: auto; min-height: 368px; max-height: 368px;">
+                                        <div class="tab-content" id="index-row-operators-body" style="display: inherit; overflow-y:auto;">
+                                            <div class="tab-pane" id="dyn-t1-1" role="tabpanel">
+                                                <!--Dinamic-->
+                                                <table class="mb-0 table table-striped">
+                                                        <tbody id="omilia-online-themes-dynamic">
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="sta-t2-1" role="tabpanel">
+                                    <!--Static-->
+                                    <table class="mb-0 table table-striped">
+                                            <tbody id="omilia-online-themes-static">
+                                            </tbody>
+                                        </table>
+                                            </div>
+                                            <div class="tab-pane" id="oth-t3-1" role="tabpanel">
+                                    <!--Other-->
+                                    <table class="mb-0 table table-striped">
+                                            <tbody id="omilia-online-themes-other">
+                                            </tbody>
+                                        </table>
+                                            </div>
+                                            <div class="tab-pane active" id="all-t4-1" role="tabpanel">
+                                                <table class="mb-0 table table-striped">
+                                                        <tbody id="omilia-online-themes-all">
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Конец-->
+        <!-- Колонка 2 -->
+        <div class="col-lg-6 col-xl-4" style="padding-left: 0px;">
+            <div class="col-lg-6 col-xl-12" id="omilia-row-online-transfers2gr" style="padding: 0px;">
+                <div class="card widget-content" id="omilia-row-online-transfers2gr-body" style="display: block; font-size: .88rem;">
+                    <div style="border-bottom: 1px solid;">
+                        <div class="z-omilia-icon-abort" style="font-size: 15px;">Переведено на операторов</div>
+                    </div>
+                    <div class="z-omilia-count" id="z-omilia-online-transfer">-</div>
+                    <div class="widget-progress-wrapper" style="margin-bottom: 30px;">
+                        <div class="progress-bar-xs progress-bar-animated-alt progress">
+                            <div id="progress-bar-transfer-id" class="progress-bar progress-bar-animated bg-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                <div class="omilia-transfer-progress-prc"></div>
+                            </div>
+                            <div class="omilia-transfer-progress-prc-reverse" style="margin-left:10px; margin-top:auto; margin-bottom:auto;"></div>
+                        </div>
+                        <div class="progress-sub-label">
+                            <div class="sub-label-left">
+                                <div class="omilia-transfer-progress">progress</div>
+                            </div>
+                            <div class="sub-label-right">100%</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-12" style="overflow:auto; padding: 0px; margin-bottom: 30px;">
+                        <h5 class="card-title">В разрезе секторов:</h5>
+                        <canvas id="omilia-online-canvas-transfer-2gr"></canvas>
+                    </div>
+                    <div>
+                    <div class="col-lg-6 col-xl-12" style="padding: 0px; display: block; padding-bottom: 30px;">
+                        <div>
+                            <table class="mb-0 table table">
+                                <thead>
+                                    <tr>
+                                        <th style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 20px;'>Секторы</th>
+                                        <th style='text-align: center; min-width: 100px; max-width: 100px;'>Количество</th>
+                                        <th style='text-align: center; min-width: 100px; max-width: 100px;'>%</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div id="omilia-online-group" style="overflow: auto; min-height: 280px; max-height: 280px;">
+                        <table class="mb-0 table table" id="omilia-offline-tran-stat">
+                            <thead>
+                            </thead>
+                            <tbody>
+                                    <tr id="cards_all">
+                                        <td class="common-style" style="border-top: 1px solid #FFF;">
+                                            <button id="cards_all_cell" class='border-0 btn-transition btn btn-outline-primary2 left' onclick="multiTap('cards_all')">Карточки</button>
+                                        </td>
+                                        <td id="cards_cell_amount" class="common-style-lang" style="border-top: 1px solid #FFF;">-</td>
+                                        <td id="cards_cell_prc" class="common-style-lang" style="border-top: 1px solid #FFF;">-</td>
+                                    </tr>
+                                    <tr id="hide_field_cards_kz" style="display: none;" class="common-tr-lang">
+                                        <td id="cards_kz_cell" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                            на казахском - <span id="cards_kz_span"></span>
+                                        </td>
+                                        <td id="cards_kz_cell_amount" class="common-style-lang">-</td>
+                                        <td id="cards_kz_cell_prc" class="common-style-lang"></td>
+                                    </tr>
+                                    <tr id="hide_field_cards_ru" style="display: none;" class="common-tr-lang">
+                                        <td id="cards_ru_cell" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                            на русском - <span id="cards_ru_span"></span>
+                                        </td>
+                                        <td id="cards_ru_cell_amount" class="common-style-lang">-</td>
+                                        <td id="cards_ru_cell_prc" class="common-style-lang"></td>
+                                    </tr>
+                                    <tr id="homebank_all">
+                                        <td class="common-style">
+                                            <button id="homebank_all_cell" class='border-0 btn-transition btn btn-outline-primary2 left' onclick="multiTap('homebank_all')">Homebank</button>
+                                        </td>
+                                        <td id="homebank_cell_amount" class="common-style-lang">-</td>
+                                        <td id="homebank_cell_prc" class="common-style-lang">-</td>
+                                    </tr>
+                                    <tr id="hide_field_hb_kz" style="display: none;" class="common-tr-lang">
+                                        <td id="homebank_kz_cell" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                            на казахском - <span id="homebank_kz_span"></span>
+                                        </td>
+                                        <td id="homebank_kz_cell_amount" class="common-style-lang">-</td>
+                                        <td id="homebank_kz_cell_prc" class="common-style-lang"></td>
+                                    </tr>
+                                    <tr id="hide_field_hb_ru" style="display: none;" class="common-tr-lang">
+                                        <td id="homebank_ru_cell" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                            на русском - <span id="homebank_ru_span"></span>
+                                        </td>
+                                        <td id="homebank_ru_cell_amount" class="common-style-lang">-</td>
+                                        <td id="homebank_ru_cell_prc" class="common-style-lang"></td>
+                                    </tr>
+                                    <tr id="retail_all">
+                                        <td class="common-style">
+                                            <button id="retail_all_cell" class='border-0 btn-transition btn btn-outline-primary2 left' onclick="multiTap('retail_all')">Розница / Общие вопросы</button>
+                                        </td>
+                                        <td id="retail_cell_amount" class="common-style-lang">-</td>
+                                        <td id="retail_cell_prc" class="common-style-lang">-</td>
+                                    </tr>
+                                    <tr id="hide_field_rt_kz" style="display: none;" class="common-tr-lang">
+                                        <td id="retail_kz_cell" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                            на казахском - <span id="retail_kz_span"></span>
+                                        </td>
+                                        <td id="retail_kz_cell_amount" class="common-style-lang">-</td>
+                                        <td id="retail_kz_cell_prc" class="common-style-lang"></td>
+                                    </tr>
+                                    <tr id="hide_field_rt_ru" style="display: none;" class="common-tr-lang">
+                                        <td id="retail_ru_cell" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                            на русском - <span id="retail_ru_span"></span>
+                                        </td>
+                                        <td id="retail_ru_cell_amount" class="common-style-lang">-</td>
+                                        <td id="retail_ru_cell_prc" class="common-style-lang"></td>
+                                    </tr>
+                                    <tr id="payments_all">
+                                        <td class="common-style">
+                                            <button id="payments_all_cell" class='border-0 btn-transition btn btn-outline-primary2 left' onclick="multiTap('payments_all')">Платежи и переводы</button>
+                                        </td>
+                                        <td id="payments_cell_amount" class="common-style-lang">-</td>
+                                        <td id="payments_cell_prc" class="common-style-lang">-</td>
+                                    </tr>
+                                    <tr id="hide_field_pay_kz" style="display: none;" class="common-tr-lang">
+                                        <td id="payments_kz_cell" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                            на казахском - <span id="payments_kz_span"></span>
+                                        </td>
+                                        <td id="payments_kz_cell_amount" class="common-style-lang">-</td>
+                                        <td id="payments_kz_cell_prc" class="common-style-lang"></td>
+                                    </tr>
+                                    <tr id="hide_field_pay_ru" style="display: none;" class="common-tr-lang">
+                                        <td id="payments_ru_cell" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                            на русском - <span id="payments_ru_span"></span>
+                                        </td>
+                                        <td id="payments_ru_cell_amount" class="common-style-lang">-</td>
+                                        <td id="payments_ru_cell_prc" class="common-style-lang"></td>
+                                    </tr>
+                                    <tr id="credits_all">
+                                        <td class="common-style">
+                                            <button id="credits_all_cell" class='border-0 btn-transition btn btn-outline-primary2 left' onclick="multiTap('credits_all')">Новые кредиты (УТП)</button>
+                                        </td>
+                                        <td id="credits_cell_amount" class="common-style-lang">-</td>
+                                        <td id="credits_cell_prc" class="common-style-lang">-</td>
+                                    </tr>
+                                    <tr id="hide_field_cr_kz" style="display: none;" class="common-tr-lang">
+                                        <td id="credits_kz_cell" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                            на казахском - <span id="credits_kz_span"></span>
+                                        </td>
+                                        <td id="credits_kz_cell_amount" class="common-style-lang">-</td>
+                                        <td id="credits_kz_cell_prc" class="common-style-lang"></td>
+                                    </tr>
+                                    <tr id="hide_field_cr_ru" style="display: none;" class="common-tr-lang">
+                                        <td id="credits_ru_cell" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                            на русском - <span id="credits_ru_span"></span>
+                                        </td>
+                                        <td id="credits_ru_cell_amount" class="common-style-lang">-</td>
+                                        <td id="credits_ru_cell_prc" class="common-style-lang"></td>
+                                    </tr>
+                                    <tr style="border-top: 1px solid #e9ecef;">
+                                        <td id="total_sum_cell" style="text-align: left; vertical-align:middle; font-weight: bold; padding-left: 20px; min-width: 200px; max-width: 200px;">
+                                            Итого
+                                        </td>
+                                        <td id="total_sum_count" style='text-align: center; font-weight: bold; min-width: 100px; max-width: 100px;'>-</td>
+                                        <td id="total_sum_prc" style='text-align: center; font-weight: bold; min-width: 100px; max-width: 100px;'>-</td> 
+                                    </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card widget-content" id="omilia-row-graphic" style="display: none; font-size:15px; height: 220px;">
+                <div>Диаграмма уровня успешно завершенных вызовов в реальном времени, шаг ~5 минут</div>
+                <canvas id="chLine" height="50" style="margin-top: 25px;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="z-omilia-row-4">
+        <div class="col-lg-6 col-xl-12" style="padding-left: 0px;">
+            <div class="card mb-3 widget-content" style="color:#495057; border-top: 2px solid #3ac47d; border-bottom: 2px solid #3ac47d;">
+                <div class="card-header-title" style="width: 100%;">
+                    <div style="font-size:15px; text-transform:uppercase; font-weight:bold;">
+                        <div class="z-pe-7s-graph2"></div>
+                        <div>Исторические данные</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="z-omilia-row-5" style="margin-left: -15px; transition: opacity 0.30s linear; opacity: 0;">
+        <div class="col-lg-6 col-xl-8" style="padding-right: 0px;">
+            <div class="main-card mb-3 card" id="omilia-cbody-offstat" style="overflow: auto; min-height: 505px; max-height:505px;">
+                <div class="card-body" id="index-row-operators-body" style="overflow-y: auto; padding-bottom: 5px;">
+                    <h5 class="card-title">Общая статистика (за последние 10 дней)</h5>
+                    <table class="mb-0 table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; vertical-align:middle">#</th>
+                                <th style="text-align: center; vertical-align:middle; width:14%">Дата</th>
+                                <th style="text-align: center; vertical-align:middle">Общее количество входящих вызовов в Omilia</th>
+                                <th style="text-align: center; vertical-align:middle">Завершено по инициативе клиента</th>
+                                <th style="text-align: center; vertical-align:middle">Завершено по инициативе робота</th>
+                                <th style="text-align: center; vertical-align:middle">%, в процентном соотношении</th>
+                                <th style="text-align: center; vertical-align:middle">Переведено на операторов</th>
+                                <th style="text-align: center; vertical-align:middle">%, в процентном соотношении</th>
+                            </tr>
+                        </thead>
+                        <tbody id="z-omilia-offline-statistic">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-4" id="z-omilia-column-tr-2gr" style="transition: opacity 0.30s linear; opacity: 0;">
+            <div class="main-card mb-3 card" id="omilia-cbody-trans">
+                <div class="card-body">
+                    <h5 class="card-title">График по переводам на операторов <br> в разрезе секторов <span id="omilia-history-days" style="text-decoration:underline; color: #244cb3;">(за последние 10 дней)</span></h5>
+                    <canvas id="z-omilia-canvas-transfer-2gr"></canvas>
+                </div>
+            </div>
+            <div class="main-card mb-3 card" id="omilia-cbody-trans-lst" style="overflow: auto; min-width: 345px;">
+                <div>
+                <div class="card-body" style="padding-top:15px; padding-bottom: 20px;">
+                    <div>
+                        <table class="mb-0 table table">
+                            <thead>
+                                <tr>
+                                    <th style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; border-top: 1px solid #FFF; padding-left: 20px;'>Секторы</th>
+                                    <th style='text-align: center; min-width: 100px; max-width: 100px; border-top: 1px solid #FFF'>Количество</th>
+                                    <th style='text-align: center; min-width: 100px; max-width: 100px; border-top: 1px solid #FFF'>%</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div id="omilia-offline-group" style="overflow: auto; min-height: 229px; max-height: 229px;">
+                    <table class="mb-0 table table">
+                        <thead>
+                        </thead>
+                        <tbody>
+                                <tr id="cards_all_ten">
+                                    <td class="common-style" style="border-top: 1px solid #FFF;">
+                                        <button id="cards_all_cell_ten" class='border-0 btn-transition btn btn-outline-primary2 left' onclick="multiTap('cards_all_ten')">Карточки</button>
+                                    </td>
+                                    <td id="cards_cell_amount_ten" class="common-style-lang" style="border-top: 1px solid #FFF;">-</td>
+                                    <td id="cards_cell_prc_ten" class="common-style-lang" style="border-top: 1px solid #FFF;">-</td>
+                                </tr>
+                                <tr id="hide_field_cards_kz_ten" style="display: none;" class="common-tr-lang">
+                                    <td id="cards_kz_cell_ten" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                        на казахском - <span id="cards_kz_span_ten"></span>
+                                    </td>
+                                    <td id="cards_kz_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="cards_kz_cell_prc_ten" class="common-style-lang"></td>
+                                </tr>
+                                <tr id="hide_field_cards_ru_ten" style="display: none;" class="common-tr-lang">
+                                    <td id="cards_ru_cell_ten" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                        на русском - <span id="cards_ru_span_ten"></span>
+                                    </td>
+                                    <td id="cards_ru_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="cards_ru_cell_prc_ten" class="common-style-lang"></td>
+                                </tr>
+                                <tr id="homebank_all_ten">
+                                    <td class="common-style">
+                                        <button id="homebank_all_cell_ten" class='border-0 btn-transition btn btn-outline-primary2 left' onclick="multiTap('homebank_all_ten')">Homebank</button>
+                                    </td>
+                                    <td id="homebank_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="homebank_cell_prc_ten" class="common-style-lang">-</td>
+                                </tr>
+                                <tr id="hide_field_hb_kz_ten" style="display: none;" class="common-tr-lang">
+                                    <td id="homebank_kz_cell_ten" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                        на казахском - <span id="homebank_kz_span_ten"></span>
+                                    </td>
+                                    <td id="homebank_kz_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="homebank_kz_cell_prc_ten" class="common-style-lang"></td>
+                                </tr>
+                                <tr id="hide_field_hb_ru_ten" style="display: none;" class="common-tr-lang">
+                                    <td id="homebank_ru_cell_ten" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                        на русском - <span id="homebank_ru_span_ten"></span>
+                                    </td>
+                                    <td id="homebank_ru_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="homebank_ru_cell_prc_ten"  class="common-style-lang"></td>
+                                </tr>
+                                <tr id="retail_all_ten">
+                                    <td class="common-style">
+                                        <button id="retail_all_cell_ten" class='border-0 btn-transition btn btn-outline-primary2 left' onclick="multiTap('retail_all_ten')">Розница / Общие вопросы</button>
+                                    </td>
+                                    <td id="retail_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="retail_cell_prc_ten" class="common-style-lang">-</td>
+                                </tr>
+                                <tr id="hide_field_rt_kz_ten" style="display: none;" class="common-tr-lang">
+                                    <td id="retail_kz_cell_ten" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                       на казахском - <span id="retail_kz_span_ten"></span>
+                                    </td>
+                                    <td id="retail_kz_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="retail_kz_cell_prc_ten" class="common-style-lang"></td>
+                                </tr>
+                                <tr id="hide_field_rt_ru_ten" style="display: none;" class="common-tr-lang">
+                                    <td id="retail_ru_cell_ten" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                        на русском - <span id="retail_ru_span_ten"></span>
+                                    </td>
+                                    <td id="retail_ru_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="retail_ru_cell_prc_ten" class="common-style-lang"></td>
+                                </tr>
+                                <tr id="payments_all_ten">
+                                    <td class="common-style">
+                                        <button id="payments_all_cell_ten" class='border-0 btn-transition btn btn-outline-primary2 left' onclick="multiTap('payments_all_ten')">Платежи и переводы</button>
+                                    </td>
+                                    <td id="payments_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="payments_cell_prc_ten" class="common-style-lang">-</td>
+                                </tr>
+                                <tr id="hide_field_pay_kz_ten" style="display: none;" class="common-tr-lang">
+                                    <td id="payments_kz_cell_ten" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                        на казахском - <span id="payments_kz_span_ten"></span>
+                                    </td>
+                                    <td id="payments_kz_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="payments_kz_cell_prc_ten" class="common-style-lang"></td>
+                                </tr>
+                                <tr id="hide_field_pay_ru_ten" style="display: none;" class="common-tr-lang">
+                                    <td id="payments_ru_cell_ten" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                        на русском - <span id="payments_ru_span_ten"></span>
+                                    </td>
+                                    <td id="payments_ru_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="payments_ru_cell_prc_ten" class="common-style-lang"></td>
+                                </tr>
+                                <tr id="credits_all_ten">
+                                    <td class="common-style">
+                                        <button id="credits_all_cell_ten" class='border-0 btn-transition btn btn-outline-primary2 left' onclick="multiTap('credits_all_ten')">Новые кредиты (УТП)</button>
+                                    </td>
+                                    <td id="credits_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="credits_cell_prc_ten" class="common-style-lang">-</td>
+                                </tr>
+                                <tr id="hide_field_cr_kz_ten" style="display: none;" class="common-tr-lang">
+                                    <td id="credits_kz_cell_ten" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                        на казахском - <span id="credits_kz_span_ten"></span>
+                                    </td>
+                                    <td id="credits_kz_cell_amount_ten" class="common-style-lang">-</td>
+                                    <td id="credits_kz_cell_prc_ten" class="common-style-lang"></td>
+                                </tr>
+                                <tr id="hide_field_cr_ru_ten" style="display: none;" class="common-tr-lang">
+                                    <td id="credits_ru_cell_ten" style='text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px; padding-left: 35px;'>
+                                         на русском - <span id="credits_ru_span_ten"></span>
+                                    </td>
+                                    <td id="credits_ru_cell_amount_ten"  class="common-style-lang">-</td>
+                                    <td id="credits_ru_cell_prc_ten" class="common-style-lang"></td>
+                                </tr>
+                                <tr style="border-top: 1px solid #e9ecef;">
+                                    <td id="total_sum_cell_ten" style="text-align: left; vertical-align:middle; font-weight: bold; padding-left: 20px; min-width: 200px; max-width: 200px;">
+                                        Итого
+                                    </td>
+                                    <td id="total_sum_count_ten" style='text-align: center; font-weight: bold; min-width: 100px; max-width: 100px;'>-</td>
+                                    <td id="total_sum_prc_ten" style='text-align: center; font-weight: bold; min-width: 100px; max-width: 100px;'>%</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="z-omilia-row-6" style="transition: opacity 0.30s linear; opacity: 0;">
+        <div class="col-lg-6 col-xl-4 leveler-left" style="padding-left: 0px;">
+            <div class="main-card mb-3 card" id="omilia-cbody-themes-graphic">
+                <div class="card-body">
+                    <h5 class="card-title">График по темам обращений</h5>
+                    <canvas id="z-omilia-topic-of-appeal"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-8 leveler-right" style="padding: 0px; display: auto;">
+            <div style="padding: 0px; padding-right: 15px;">
+                <div class="main-card mb-3 card" id="omilia-cbody-themes-lst">
+                    <div id="index-row-operators-body" style="display: block; padding-bottom: 20px;">
+                        <div style="padding-left: 0px; display: flex;">
+                            <div class="card-body" style="padding-bottom: 0px;">
+                                <div style="padding-left: 0px; display: flex;">
+                                    <h5 class="card-title">Аналитическая статистика <span id="omilia-top-app" style="text-decoration: underline; color: #244cb3;">(за последние 10 дней)</span></h5>
+                                        <div class="btn-actions-pane-right">
+                                            <div class="dropdown">
+                                                <button id="btn_destr_ten" onclick="myFunctionTen()" class="dropbtn btn mb-2 mr-2 btn-primary dropdown-toggle">Общий список</button>
+                                                  <div id="myDropdownTen" class="dropdown-content">
+                                                    <a id="btn_destr_all_ten" onclick="OmiliaPressBtnTen('btn_destr_all_ten')" data-toggle="tab" href="#alld-t4-1" tabindex="0" class="dropdown-item" style="display: none;">Общий список</a>
+                                                    <a id="btn_destr_o_ten" onclick="OmiliaPressBtnTen('btn_destr_o_ten')" data-toggle="tab" href="#adyn-t1-1" tabindex="0" class="dropdown-item">Динамические сервисы</a>
+                                                    <a id="btn_destr_t_ten" onclick="OmiliaPressBtnTen('btn_destr_t_ten')" data-toggle="tab" href="#asta-t2-1" tabindex="0" class="dropdown-item">Статические сервисы</a>
+                                                    <a id="btn_destr_h_ten" onclick="OmiliaPressBtnTen('btn_destr_h_ten')" data-toggle="tab" href="#aoth-t3-1" tabindex="0" class="dropdown-item">Другое</a>
+                                                  </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div>
+                                    <table class="mb-0 table table-striped">
+                                                <thead>
+                                                        <tr>
+                                                            <th style="text-align: center; vertical-align:middle; min-width: 40px; max-width: 40px;">№</th>
+                                                            <th style="text-align: center; vertical-align:middle; min-width: 100px; max-width: 100px;">Self Service</th>
+                                                            <th style="text-align: left; vertical-align:middle; min-width: 200px; max-width: 200px;">Тема обращения</th>
+                                                            <th style="text-align: center; vertical-align:middle; min-width: 100px; max-width: 100px;">Количество</th>
+                                                            <th style="text-align: center; vertical-align:middle; min-width: 200px; max-width: 200px;">%, в процентном <br> соотношении ко всем темам</th>
+                                                        </tr>
+                                                </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding-top: 0px; ">
+                            <div id="omilia-online-group" style="overflow: auto; min-height: 280px; max-height: 280px;">
+                            <div class="tab-content">
+                                <div class="tab-pane" id="adyn-t1-1" role="tabpanel">
+                                    <!--Dinamic-->
+                                    <table class="mb-0 table table-striped">
+                                                <tbody id="z-omilia-themes-dyn">
+                                                </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane" id="asta-t2-1" role="tabpanel">
+                                    <!--Static-->
+                                    <table class="mb-0 table table-striped">
+                                                <tbody id="z-omilia-themes-sta">
+                                                </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane" id="aoth-t3-1" role="tabpanel">
+                                    <!--Other-->
+                                    <table class="mb-0 table table-striped">
+                                                <tbody id="z-omilia-themes-oth">
+                                                </tbody>
+                                    </table>
+                                </div> 
+                                <div class="tab-pane active" id="alld-t4-1" role="tabpanel">
+                                        <!--All-->
+                                        <table class="mb-0 table table-striped">
+                                                    <tbody id="z-omilia-themes-all">
+                                                    </tbody>
+                                        </table>
+                                </div> 
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascript %}
+<script>
+    page = 'omilia';
+</script> {% endblock javascript %} {% endblock %}

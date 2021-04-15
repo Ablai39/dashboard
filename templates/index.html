@@ -1,0 +1,401 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+
+<div class="app-main__inner" style="min-width: 1400px;">
+    <div class="col-lg-6 col-xl-12" style="padding: 0;">
+        <div class="main-card mb-3 card">
+            <div class="card-body" style="display: block;">
+                <div class="col-lg-6 col-xl-12" style="padding: 0; display: flex;">
+                    <!-- Первый столбец -->
+                    <div class="col-lg-6 col-xl-6" id="index-row-left-column" style="padding-left: 0px; padding-right: 7px; display: block;">
+                        <!-- Основная информация -->
+                        <div class="col-lg-6 col-xl-12" id="index-row-main-information" style="padding: 0px; display: flex;">
+                            <div class="col-lg-6 col-xl-6" id="index-row-main-sl" style="padding-left: 0px; padding-right: 5px; min-height: 175px; flex: 0 0 50%; max-width: 50%;">
+                                <div class="card-shadow-success" id="index-sl-shadow-day" style="padding: 10px; min-height: 175px; border: 1px solid #eee;">
+                                    <h6 class="sub-label-left" style="padding-bottom: 10px; border-bottom: 1px solid;">за сегодня</h6>
+                                    <div class="widget-chart widget-chart2">
+                                        <div class="widget-content" style="padding: 5px; display: flex;">
+                                            <div class="widget-chart widget-chart2 text-left" style="float: left; margin-right:20px;">
+                                                <div class="z-index-sl-circle" id="index-sl-circle-total">
+                                                    <div class="z-service-level-font widget-numbers" style="font-size: 30px;">
+                                                        <span id="index-sl-total">-</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-content-outer">
+                                                <div class="widget-numbers" style="text-align: left">
+                                                    <div style="font-size: 20px;">Очередь ВКЦ: 
+                                                    <span class="z-inqueue-font" id="index-inqueue-total-color" style="font-size: 20px;">
+                                                        <span id="index-inqueue-total" style="font-size: 25px;">-</span></span>
+                                                    </div>
+                                                    <div style="font-size: 20px;">Макс вр.ожид: 
+                                                    <span class="z-inqueue-font" id="index-mwt-total-color" style="font-size: 20px;">
+                                                        <span id="index-mwt-total" style="font-size: 25px;">-</span></span>
+                                                    </div>
+                                                    <div style="font-size: 20px;">Очередь на чатах: 
+                                                    <span class="z-inqueue-font" id="index-inqueue-chats-color" style="font-size: 20px;">
+                                                        <span id="index-inqueue-chats" style="font-size: 25px;">-</span></span>
+                                                    </div>
+                                                    <div style="font-size: 20px;">FCR: 
+                                                    <span class="z-inqueue-font" id="index-fcr-day-color" style="font-size: 20px;">
+                                                        <span id="index-fcr-day" style="font-size: 25px;">-</span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-6" id="index-row-main-month" style="padding-right: 0px; padding-left: 5px; min-height: 175px; flex: 0 0 50%; max-width: 50%">
+                                <div class="card-shadow-success" id="index-sl-shadow-month" style="padding: 10px; min-height: 175px; border: 1px solid #eee;">
+                                    <h6 class="sub-label-left" style="padding-bottom: 10px; border-bottom: 1px solid;">c <span id="z-index-month-date"></span></h6>
+                                    <div class="widget-chart widget-chart2">
+                                        <div class="widget-content" style="padding: 5px; display: flex;">
+                                            <div class="widget-content-outer">
+                                                <div class="widget-numbers" style="text-align: left">
+                                                    <div style="font-size: 20px;">Общий SL за месяц</div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-chart widget-chart2" style="float: right; margin-left:20px;">
+                                                <div class="z-index-sl-circle" id="index-m-sl-circle-total">
+                                                    <div class="widget-numbers z-service-level-font">
+                                                        <span id="index-m-sl-total">-</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- Данные по всем скилл группам -->
+                        <div class="col-lg-6 col-xl-12" id="index-all-sectors" style="padding: 0px; padding-top: 10px;">
+                            <div class="main-card" style="box-shadow: none;">
+                                <div class="card-shadow-success" style="border: 1px solid #eee;">
+                                    <div class="card-body" id="index-all-sectors-body">
+                                        <table class="mb-0 table">
+                                            <h6 class="sub-label-left" style="color: #495057;">По всем секторам ВКЦ</h6>
+                                            <thead>
+                                                <tr>
+                                                    <th class="width-20prc"></th>
+                                                    <th class="text-center align-middle width-16prc" style="font-size: 17px;">{% include "small/inqueue.html" %}</th>
+                                                    <th class="text-center align-middle width-16prc" style="font-size: 17px;">Готов</th>
+                                                    <th class="text-center align-middle width-16prc" style="font-size: 17px;">Обслуживается</th>
+                                                    <th class="text-center align-middle width-16prc" style="font-size: 17px;">{% include "small/sl.html" %}</th>
+                                                    <th class="text-center align-middle width-16prc" style="font-size: 17px;">{% include "small/mwt.html" %}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="index-main-sectors-table">
+                                                {% for sector, attrib in sectorsDict.items %}
+                                                    {% if attrib.archive == 'N' %}
+                                                        {% if sector != 'unknown' %}
+                                                            <tr class='index-font-value-small'>
+                                                                <td class="index-name-of-skill text-left">{{ attrib.longname }}</td>
+                                                                <td id="index-inqueue-{{ sector }}">-</td>
+                                                                <td id="index-status-available-{{ sector }}">-</td>
+                                                                <td id="index-status-acd-{{ sector }}">-</td>
+                                                                <td id="index-sl-{{ sector}}">-</td>
+                                                                <td id="index-mwt-{{ sector }}">-</td>
+                                                            </tr>
+                                                            {% if attrib.enableCallBack == 'Y' %}  
+                                                                <tr class='index-font-value-small'>
+                                                                    <td class="index-name-of-skill text-left">
+                                                                        <div class="pe-7s-next-2" style="min-width: 28px;"></div>Call back</td>
+                                                                    <td id="index-inqueue-{{ sector }}_cba">-</td>
+                                                                    <td id="index-status-available-{{ sector }}_cba">-</td>
+                                                                    <td id="index-status-acd-{{ sector }}_cba">-</td>
+                                                                    <td id="index-sl-{{ sector }}_cba">-</td>
+                                                                    <td id="index-mwt-{{ sector }}_cba">-</td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <tr class='index-font-value-small'>
+                                                    <td class="index-name-of-skill text-left">Чаты</td>
+                                                    <td id="index-inqueue-chats2">-</td>
+                                                    <td id="index-status-available-chats">-</td>
+                                                    <td id="index-status-acd-chats">-</td>
+                                                    <td id="index-sl-chats">-</td>
+                                                    <td id="index-mwt-chats">-</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Конец -->
+                    </div>
+                    <!-- Второй столбец -->
+                    <div class="col-lg-6 col-xl-6" style="padding-right: 0px; padding-left: 7px; display: block;">
+                        <!-- Диаграмма -->
+                        <div class="col-lg-6 col-xl-12" id="index-row-graphic" style="padding: 0px;">
+                            <div class="main-card card">
+                                <div class="" style="border: 1px solid #eee;">
+                                    <div class="card-body" id="index-row-graphic-body">
+                                        <h6 class="sub-label-left" style="padding-bottom: 10px;">Диаграмма в разрезе каждого часа</h6>
+                                        <canvas id="index-graphic"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Конец -->
+    
+                        <!-- ПЛАН и ФАКТ -->
+                        <div class="col-lg-6 col-xl-12" id="index-row-plan-fact" style="padding: 0px; padding-top: 10px;">
+                            <div class="main-card" style="box-shadow: none;">
+                                <div class="card-shadow-success" style="border: 1px solid #eee;">
+                                    <div class="card-body" id="index-row-plan-fact-body">
+                                        <h6 class="sub-label-left" style="padding-bottom: 10px; display: none;">План за дату <span id="index-plan-date"></span> с <span id="index-plan-starttime"></span> до <span id="index-plan-endtime"></span></h6>
+                                        <table class="mb-0 table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left align-middle"></th>
+                                                    <th class="width-20prc text-center align-middle">Плановое кол.операторов</th>
+                                                    <th class="width-20prc text-center align-middle">Фактическое кол.операторов в системе</th>
+                                                    <th class="width-15prc text-center align-middle">Разница</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for depCode, depAttrib in depsDict.items %}
+                                                <tr id="index-{{ depCode }}-tr">
+                                                    <td class="text-left align-middle" style="font-weight: bold;"><div class='{{ depAttrib.icon }}'></div>{{ depAttrib.longname }}</td>
+                                                    <td class="text-center align-middle" id="index-plan-{{ depCode }}" style="font-size: 16px;">-</td>
+                                                    <td style="text-align: center; padding: 0;">
+                                                        <button class="border-0 btn-transition btn"
+                                                            id="index-fact-{{ depCode }}" 
+                                                            onclick="index_depsOperatorsList('{{ depCode }}')"
+                                                            style="font-size: 16px;">-
+                                                        </button>
+                                                    </td>
+                                                    <td class="text-center align-middle" id="index-pf-delta-{{ depCode }}" style="font-size: 16px;">-</td>
+                                                </tr>
+                                                {% endfor%}
+                                                <tr>
+                                                    <td class="text-left align-middle" style="font-weight: bold;"></div>Итого</td>
+                                                    <td class="text-center align-middle" id="index-plan-total" style="font-size: 16px;">-</td>
+                                                    <td class="text-center align-middle" id="index-fact-total" style="font-size: 16px;">-</td>
+                                                    <td class="text-center align-middle" id="index-pf-delta-total" style="font-size: 16px;">-</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Конец -->                       
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-12" style="padding: 0; display: flex;">
+                    <!-- Первый столбец -->
+                    <div class="col-lg-6 col-xl-6" id="index-row-left-column" style="padding-left: 0px; padding-right: 7px; display: block; flex: 0 0 55%; max-width: 55%">
+                        <!-- Данные по состоянию операторов -->
+                        <div class="col-lg-6 col-xl-12" id="index-operators-status" style="padding: 0px; padding-top: 10px;">
+                            <div class="main-card card">
+                                <div class="" style="border: 1px solid #eee;">
+                                    <div class="card-body" id="index-operators-status-body" style="min-height: 1000px; overflow: auto;">
+                                        <h6 class="sub-label-left" style="padding-bottom: 10px;">Операторы</h6>
+                                        <table class="mb-0 table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:left; width: 30%;"></th>
+                                                    {% for sector, attrib in sectorsDict.items %}
+                                                        {% if attrib.archive == 'N' %}
+                                                            {% if sector != 'unknown' %}
+                                                                <th style="text-align:center; vertical-align: middle; width: 11%;">{{ attrib.longname }}</th>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tr>
+                                            </thead>
+                                            <tbody class="index-operators-table">
+                                                {% for item, itemAttrib in widgetOperatorsItemsDict.items %}
+                                                    <tr>
+                                                        <th scope="row">
+                                                            {% if itemAttrib.iconEnable == 'Y' %}
+                                                            <div class="{{ itemAttrib.icon }}" style="min-width: 28px;"></div> 
+                                                            {% endif %}
+                                                            <div style="vertical-align: middle">{{ itemAttrib.longname }}</div>
+                                                        </th>
+                                                        {% for sector, attrib in sectorsDict.items %}
+                                                            {% if attrib.archive == 'N' %}
+                                                                {% if sector != 'unknown' %}
+                                                                    {% if itemAttrib.onClickEnable == 'Y' %}
+                                                                        <td>
+                                                                            <button class="border-0 btn-transition btn"
+                                                                                id="index-{{ item }}-{{ sector }}" 
+                                                                                onclick="index_operators_list('{{ sector }}','{{ attrib.longname }}','{{ item }}','{{ itemAttrib.agentAction }}')">-
+                                                                            </button>
+                                                                        </td>
+                                                                    {% else %}
+                                                                        <td id="index-{{ item }}-{{ sector }}">-</td>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Конец -->
+                    </div>
+                    <!-- Второй столбец -->
+                    <div class="col-lg-6 col-xl-6" id="index-row-right-column" style="padding-right: 0px; padding-left: 7px; display: block; flex: 0 0 45%; max-width: 45%">
+                        <!-- Статистика -->
+                        <div class="col-lg-6 col-xl-12" id="index-row-statistic" style="padding: 0px; padding-top: 10px;">
+                            <div class="main-card card">
+                                <div class="" style="border: 1px solid #eee;">
+                                    <div class="card-body" id="index-row-day-statistic-body">
+                                        <div class="" style="padding-left: 0px; display: flex;">
+                                            <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>
+                                            <h6 class="sub-label-left">Статистика</h6>
+                                            <div class="btn-actions-pane-right">
+                                                <div class="nav">
+                                                    <a data-toggle="tab" href="#tab-eg2-0" class="btn-pill btn-wide active btn btn-outline-alternate btn-sm" style="font-size: .88rem;">за сегодня</a>
+                                                    <a data-toggle="tab" href="#tab-eg2-1" class="btn-pill btn-wide mr-1 ml-1  btn btn-outline-alternate btn-sm" style="font-size: .88rem;">за текущий месяц (с <span id="z-index-month-date2"></span>)</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body" style="padding-left: 0px; padding-right: 0px; padding-bottom: 0px;">
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
+                                                    <!-- За сегодня -->
+                                                    <table class="mb-0 table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="width-20prc text-left align-middle">Сектор</th>
+                                                                <th class="width-20prc text-center align-middle">Общее количество поступивших вызовов</th>
+                                                                <th class="width-25prc text-center align-middle">Принятые/потерянные/переадресованные вызовы</th>
+                                                                <th class="width-22prc text-center align-middle">Принятые/потерянные вызовы в пределах SL</th>
+                                                                <th class="width-10prc text-center align-middle">Service Level</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for sector, attrib in sectorsDict.items %}
+                                                                {% if attrib.archive == 'N' %}
+                                                                    {% if sector != 'unknown' %}
+                                                                        <tr>
+                                                                            <td class="text-left align-middle" style="font-weight: bold;">
+                                                                                <!-- <div class='z-pe-7s-note2'></div> -->
+                                                                                {{ attrib.longname }}
+                                                                            </td>
+                                                                            <td class="text-center align-middle" id="index-callsoffered-{{ sector }}">-</td>
+                                                                            <td class="text-center align-middle" id="index-acdcalls-abncalls-outflowcalls-{{ sector }}">-</td>
+                                                                            <td class="text-center align-middle" id="index-acceptable-slvlabns-{{ sector }}">-</td>
+                                                                            <td class="text-center align-middle" id="index-service-levels-{{ sector }}">-</td>
+                                                                        </tr>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            <tr style="font-weight: bold;">
+                                                                <td class="text-left align-middle">Итого</td>
+                                                                <td class="text-center align-middle" id="index-callsoffered-total">-</td>
+                                                                <td class="text-center align-middle" id="index-acdcalls-abncalls-outflowcalls-total">-</td>
+                                                                <td class="text-center align-middle" id="index-acceptable-slvlabns-total">-</td>
+                                                                <td class="text-center align-middle" id="index-service-levels-total">-</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="tab-pane" id="tab-eg2-1" role="tabpanel">
+                                                    <!-- За текущий месяц -->
+                                                    <table class="mb-0 table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="width-20prc text-left align-middle">Сектор</th>
+                                                                <th class="width-20prc text-center align-middle">Общее количество поступивших вызовов</th>
+                                                                <th class="width-25prc text-center align-middle">Принятые/потерянные/переадресованные вызовы</th>
+                                                                <th class="width-22prc text-center align-middle">Принятые/потерянные вызовы в пределах SL</th>
+                                                                <th class="width-10prc text-center align-middle">Service Level</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for sector, attrib in sectorsDict.items %}
+                                                                {% if attrib.archive == 'N' %}
+                                                                    {% if sector != 'unknown' %}
+                                                                        <tr>
+                                                                            <td class="text-left align-middle" style="font-weight: bold;">
+                                                                                <!-- <div class='z-pe-7s-note2'></div> -->
+                                                                                {{ attrib.longname }}
+                                                                            </td>
+                                                                            <td class="text-center align-middle" id="index-m-callsoffered-{{ sector }}">-</td>
+                                                                            <td class="text-center align-middle" id="index-m-acdcalls-abncalls-outflowcalls-{{ sector }}">-</td>
+                                                                            <td class="text-center align-middle" id="index-m-acceptable-slvlabns-{{ sector }}">-</td>
+                                                                            <td class="text-center align-middle" id="index-m-service-levels-{{ sector }}">-</td>
+                                                                        </tr>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            <tr style="font-weight: bold;">
+                                                                <td class="text-left align-middle">Итого</td>
+                                                                <td class="text-center align-middle" id="index-m-callsoffered-total">-</td>
+                                                                <td class="text-center align-middle" id="index-m-acdcalls-abncalls-outflowcalls-total">-</td>
+                                                                <td class="text-center align-middle" id="index-m-acceptable-slvlabns-total">-</td>
+                                                                <td class="text-center align-middle" id="index-m-service-levels-total">-</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Конец -->
+    
+                        <!-- Список операторов -->
+                        <div class="col-lg-6 col-xl-12" id="index-row-operators" style="padding: 0px; padding-top: 10px;">
+                            <div class="main-card card">
+                                <div class="card-body" id="index-row-operators-body" style="border: 1px solid #eee;">
+                                    <div id="index-operators-list-shapka">
+                                        <h6 class="sub-label-left" style="padding-bottom: 10px;">Список операторов</h6>
+                                        <table class="mb-0 table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom-0 width-3prc" style="text-align:center; vertical-align: middle; min-width:35px;">№</th>
+                                                    <th class="border-bottom-0 width-25prc" style="text-align:center; vertical-align: middle;">Сектор</th>
+                                                    <th class="border-bottom-0 width-27prc" style="text-align:left; vertical-align: middle;">Имя оператора</th>
+                                                    <th class="border-bottom-0 width-25prc" style="text-align:center; vertical-align: middle;">Продолжительность</th>
+                                                    <th class="border-bottom-0 width-20prc" style="text-align:center; vertical-align: middle;">Статус</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div id="index-operators-list-data" style="overflow: auto;">
+                                        <table class="mb-0 table">
+                                            <tbody id="index-operators" style="color: #244cb3"></tbody>
+                                            <tbody>
+                                                <tr>
+                                                    <td id='index-operators-action' style='width: 0px; display: none;'>None</td>
+                                                    <td id='index-operators-sector' style='width: 0px; display: none;'>None</td>
+                                                    <td id='index-operators-sectorLongname' style='width: 0px; display: none;'>None</td>
+                                                    <td id='index-operators-state' style='width: 0px; display: none;'>None</td>
+                                                    <td id='index-operators-dscr' style='width: 0px; display: none;'>None</td>
+                                                    <td id='index-operators-depCode' style='width: 0px; display: none;'>None</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Конец -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block javascript %}
+{% load jsonify  %}
+<script id="sectorsDict" type="application/json">{{sectorsDict|jsonify}}</script>
+<script type="text/javascript">
+    page = 'index';
+    var sectorsDict = JSON.parse(document.getElementById('sectorsDict').textContent);
+</script> {% endblock javascript %} {% endblock %}

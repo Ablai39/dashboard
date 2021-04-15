@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+
+<div class="app-main__inner" style="min-width: 1400px;">
+    {% include "reports/main-acd-abn.html" %} {% include "reports/acd-abn-utp.html" %}
+</div>
+{% block javascript %}
+<script>
+    page = 'reports';
+</script> {% endblock javascript %} {% endblock %}

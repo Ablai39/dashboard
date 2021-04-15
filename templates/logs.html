@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+
+<div class="app-main__inner" style="min-width: 1400px;">
+    <div class="col-lg-6 col-xl-12">
+        <div class="main-card mb-3 card">
+            <div style="border: 1px solid #eee;">
+                <div class="card-body" style="overflow-y: auto;">
+                    <table class="mb-0 table" id="logs-tb" style="display: block;">
+                        <thead>
+                            <tr style="font-weight: bold;">
+                                <td style="text-align: left;">Name</td>
+                                <td style="text-align: left;">URL</td>
+                                <td style="text-align: center;">ROOT</td>
+                                <td style="text-align: center;">Status</td>
+                                <td style="text-align: center;">Updated time</td>
+                            </tr>
+                        </thead>
+                        <tbody id="logs" style="color: #244cb3">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block javascript %}
+<script>
+    page = 'logs';
+</script> {% endblock javascript %} {% endblock %}
